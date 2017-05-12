@@ -111,6 +111,8 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 * sudo mkdir static templates
 * sudo nano __init__.py
     * Make the following changes in __init__.py
+    ```javascript
+         ```
     from flask import Flask
     app = Flask(__name__)
     @app.route("/")
