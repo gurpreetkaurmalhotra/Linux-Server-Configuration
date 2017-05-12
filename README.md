@@ -78,5 +78,78 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
     * sudo ufw allow 123/udp
 * Turn on firewall
     * sudo ufw enable
- 
+    
+### Installing  and configuring Apache to serve a Python mod_wsgi application  ###
+* Install apache2:
+    * sudo apt-get install apache2
+* install mod_wsgi:
+    * sudo apt-get install libapache2-mod-wsgi
+* configure Apache to handle requests using the WSGI module:
+    * sudo nano /etc/apache2/sites-enabled/000-default.conf
+* add WSGIScriptAlias:
+    * / /var/www/html/myapp.wsgi before </VirtualHost> closing line
+* save the file and continue
+* Restart Apache:
+    * sudo apache2ctl restart
+    
+### Installing git ###
+* Install git and python dev:
+    * sudo apt-get install git
+* Install python-dev package:
+    * sudo apt-get install python-dev
+* enable wsgi:
+    * sudo a2enmod wsgi
+* Clone any of your project(earlier nanodegree projects or anything else, I have used my item-catalog-website project)  which you will be using as a part of this project.
+* Make sure that  it functions correctly when visiting your server’s IP address in a browser
+
+### Create flask app taken from digitalocean ###
+* cd /var/www
+* sudo mkdir catalog
+* cd catalog
+* sudo mkdir catalog
+* cd catalog
+* sudo mkdir static templates
+* sudo nano __init__.py
+    * Make the following changes in __init__.py
+    from flask import Flask
+    app = Flask(__name__)
+    @app.route("/")
+    def hello():
+        return "Hello, Udacity"
+    if __name__ == "__main__":
+        app.run()
+* Note that we are doing this in order to see if we are on the right track
+
+### Install Flask, set permissions and activate virtual environment ###
+* sudo apt-get install python-pip
+* sudo pip install virtualenv
+* sudo virtualenv venv
+* sudo chmod -R 777 venv
+* source venv/bin/activate
+* pip install Flask
+* python __init__.py
+* deactivate
+
+### Configure new host ###
+* Create host config file sudo nano /etc/apache2/sites-available/catalog.conf
+* paste this in that file:
+<VirtualHost *:80>
+  ServerName 34.201.114.178
+  ServerAdmin admin@34.201.114.178
+  WSGIScriptAlias / /var/www/catalog/catalog.wsgi
+  <Directory /var/www/catalog/catalog/>
+      Order allow,deny
+      Allow from all
+  </Directory>
+  Alias /static /var/www/catalog/catalog/static
+  <Directory /var/www/catalog/catalog/static/>
+      Order allow,deny
+      Allow from all
+  </Directory>
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  LogLevel warn
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+* save and continue
+* Enable `sudo a2ensite catalog`
 
