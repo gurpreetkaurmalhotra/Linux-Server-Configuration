@@ -157,3 +157,55 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 * save and continue
 * Enable `sudo a2ensite catalog`
 
+Clone Github Repo
+
+sudo git clone https://github.com/jaskanwal96/item-catalog
+make sure you get hidden files iin move shopt -s dotglob. Move files from clone directory to catalog mv /var/www/catalog/item-catalog/* /var/www/catalog/catalog/
+remove clone directory sudo rm -r devpost
+make .git inaccessible
+
+from cd /var/www/catalog/ create .htaccess file sudo nano .htaccess
+paste in RedirectMatch 404 /\.git
+save file(nano: ctrl+x, Y, Enter)
+install dependencies:
+
+source venv/bin/activate
+pip install httplib2
+pip install requests
+sudo pip install --upgrade oauth2client
+sudo pip install sqlalchemy
+pip install Flask-SQLAlchemy
+sudo pip install python-psycopg2
+If you used any other packages in your project be sure to install those as well.
+Install and configure PostgreSQL:
+
+Install postgressudo apt-get install postgresql
+install additional modelssudo apt-get install postgresql-contrib
+by default no remote connections are not allowed
+config database_setup.py sudo nano database_setup.py
+python engine = create_engine('postgresql://catalog:db-password@localhost/catalog')
+repeat for project.py
+copy your main project.py file into the init.py file mv project.py __init__.py
+Add catalog user sudo adduser catalog
+login as postgres super usersudo su - postgres
+enter postgrespsql
+Create user catalogCREATE USER catalog WITH PASSWORD 'db-password';
+Change role of user catalog to creatDBALTER USER catalog CREATEDB;
+List all users and roles to verify\du
+Create new DB "catalog" with own of catalogCREATE DATABASE catalog WITH OWNER catalog;
+Connect to database\c catalog
+Revoke all rights REVOKE ALL ON SCHEMA public FROM public;
+Give accessto only catalog roleGRANT ALL ON SCHEMA public TO catalog;
+Quit postgres\q
+logout from postgres super userexit
+Setup your database schema python database_setup.py
+fix OAuth to work with hosted Application
+
+Google wont allow the IP address to make redirects so we need to set up the host name address to be usable.
+go to http://www.hcidata.info/host2ip.cgi to get your host name by entering your public IP address Udacity gave you.
+open apache configbfile sudo nano /etc/apache2/sites-available/catalog.conf
+below the ServerAdmin paste ServerAlias YOURHOSTNAME
+make sure the virtual host is enabled sudo a2ensite catalog
+restart apache server sudo service apache2 restart
+in your google developer console add your host name and IP address to Authorized Javascript origins. And add YOURHOSTNAME/ouath2callback to the Authorized redirect URIs.
+
