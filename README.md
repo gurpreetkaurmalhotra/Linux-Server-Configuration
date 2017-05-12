@@ -155,7 +155,7 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
   CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost> 
 * save and continue
-* Enable `sudo a2ensite catalog`
+* Enable sudo a2ensite catalog
 
 Clone Github Repo
 
