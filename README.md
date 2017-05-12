@@ -133,7 +133,7 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 ### Configure new host ###
 * Create host config file sudo nano /etc/apache2/sites-available/catalog.conf
 * paste this in that file:
-'code()'
+`code`
 <VirtualHost *:80>
   ServerName 34.201.114.178
   ServerAdmin admin@34.201.114.178
