@@ -61,8 +61,22 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 * login with key pair:
  * ssh grader@Public-IP-Address* -p 2200 -i ~/.ssh/project5
  
-
-
- *
+### Configure the Uncomplicated Firewall (UFW) such that it will allow only incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123) ###
+* Check UFW status just make it sure that its inactive:
+    * sudo ufw status
+* Deny all incomings:
+    * sudo ufw default deny incoming
+* Allow outgoing:
+    * sudo ufw default allow outgoing
+* Allow SSH:
+    * sudo ufw allow ssh
+* Allow SSH on port 2200:
+    * sudo ufw allow 2200/tcp
+* Allow HTTP on port 80:
+    * sudo ufw allow 80/tcp
+* Allow NTP on port 123:
+    * sudo ufw allow 123/udp
+* Turn on firewall
+    * sudo ufw enable
  
 
