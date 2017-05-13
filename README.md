@@ -19,6 +19,7 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 * Wait for it to start-up.
 * When its running you are good to go.
 
+## Methods, Steps and commands used ##
 ###  Create User named grader using commands below ###
 * sudo adduser grader
 * Note that you can check and verify if the user has been created using finger command.
