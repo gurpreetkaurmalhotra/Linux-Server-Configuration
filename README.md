@@ -10,6 +10,15 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 * SSH port number:
     2200
     
+## Things you should do when you create your own server instance ##
+* Log in to Lightsail, in case you do not have an account first make your account.
+* Create your Lightsail instance, it is a Linux server running on a virtual machine inside an Amazon datacenter.
+* Choose an instance image Ubuntu.
+* Choose your instance plan.
+* Give your instance a hostname.
+* Wait for it to start-up.
+* When its running you are good to go.
+
 #### Note that normal copy-paste will not work in this terminal following are the steps you need to follow when copying the contents of a file ####
 * Inside your terminal press ctrl+alt+shift 
 * clipboard will be opened
@@ -21,19 +30,10 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 
 #### Saving and exiting from nano ####
 * nano is a text editor provided by ubuntu
-* to save the file and continue in nano you need to :
+* to save the file and exit in nano you need to :
     * press ctr+x
     * press y (n if you do not want to save your content)
     * press enter
-
-## Things you should do when you create your own server instance ##
-* Log in to Lightsail, in case you do not have an account first make your account.
-* Create your Lightsail instance, it is a Linux server running on a virtual machine inside an Amazon datacenter.
-* Choose an instance image Ubuntu.
-* Choose your instance plan.
-* Give your instance a hostname.
-* Wait for it to start-up.
-* When its running you are good to go.
 
 ## Methods, Steps and commands used ##
 ###  Create User named grader using commands below ###
@@ -57,7 +57,7 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 * `sudo apt-get upgrade`
 
 ### Change the SSH port 22 to 2200 using the following commands
-* nano /etc/ssh/sshd_config
+* `sudo nano /etc/ssh/sshd_config`
 * now add port 2200 below port 22 
     * Port 2200
 * In this file change PermitRootLogin prohibit-password to PermitRootLogin no to disallow root login
@@ -74,18 +74,18 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 * login to your grader account using the following command:
     * `ssh -v grader@*Public-IP-Address* -p 2200`
 * Create .ssh directory using the following command:
-    * `mkdir .ssh`
+    * `sudo mkdir .ssh`
 * Create a file to store keytouch using the following command:
-    * `touch .ssh/authorized_keys`
+    * `sudo touch .ssh/authorized_keys`
 * Your public key will be stored in a file named .ssh/authorized_keys usethe following command to access it:
     * Your public and private keys will be generated using ssh-keygen
     * Copy the contents of public key file and paste it in .ssh/authorized_keys using the following command:
-    * `nano .ssh/authorized_keys` 
+    * `sudo nano .ssh/authorized_keys` 
     * Save the file and continue
 * Set permissions for files: 
-    * `chmod 700 .ssh chmod 644 .ssh/authorized_keys`
+    * `sudo chmod 700 .ssh chmod 644 .ssh/authorized_keys`
 * Change PasswordAuthentication from yes back to no. :
-    * `nano /etc/ssh/sshd_config`
+    * `sudo nano /etc/ssh/sshd_config`
     * Save the file and continue
 * login with key pair:
     * `ssh grader@Public-IP-Address* -p 2200 -i ~/.ssh/item-catalog-website'
@@ -158,8 +158,8 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 * `sudo pip install virtualenv`
 * `sudo virtualenv venv`
 * `sudo chmod -R 777 venv`
-* `source venv/bin/activate`
-* `pip install Flask`
+* `sudo source venv/bin/activate`
+* `sudo pip install Flask`
 * `python __init__.py`
 * `deactivate`
 
@@ -194,41 +194,41 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 * sudo git clone https://github.com/username/repositorname example i used:
     * `sudo git clone https://gurpreetkaurmalhotra/item-catalog-website`
 * Move files from clone directory to catalog using the following command:
-    * `mv /var/www/catalog/item-catalog-website/* /var/www/catalog/catalog/`
+    * `sudo mv /var/www/catalog/item-catalog-website/* /var/www/catalog/catalog/`
 * remove clone directory:
     * `sudo rm -r item-catalog-website`
 #### make .git inaccessible ####
 * Change your directory to /var/www/catalog 
 * create a file named .htaccess:
-    * sudo nano .htaccess
+    * `sudo nano .htaccess`
     * paste the following line in that file:
-        *` RedirectMatch 404 /\.git`
+        * `RedirectMatch 404 /\.git`
     * save file and continue
     
 ### install the dependencies ###
 * Install all relevant packages , following are the packages installed by me:
 * Activate virtual environment:
-    * `source venv/bin/activate`
+    * `sudo source venv/bin/activate`
 * Install httplib2:
-    * `pip install httplib2`
+    * `sudo pip install httplib2`
 * Install requests:
-    * `pip install requests`
+    * `sudo pip install requests`
 * Upgrade oauth2client:
     * `sudo pip install --upgrade oauth2client`
 * Install sqlalchemy:
     * `sudo pip install sqlalchemy`
 * Install flask sqlalchemy:
-    * `pip install Flask-SQLAlchemy`
+    * `sudo pip install Flask-SQLAlchemy`
 * Install python-psycopg2:
     * `sudo pip install python-psycopg2`
 
 ### Install PostgreSQL ###
 * Install postgresql
-    * sudo apt-get install postgresql
+    * `sudo apt-get install postgresql`
 * install additional models:
-    * sudo apt-get install postgresql-contrib
+    * `sudo apt-get install postgresql-contrib`
 * Since I am using my item-catalog project I first configured my database_setup.py:
-    * sudo nano database_setup.py
+    * `sudo nano database_setup.py`
     * made the following changes there:
      `engine = create_engine('postgresql://catalog:db-password@localhost/catalog')`
 * I repeated the same for project.py
@@ -237,6 +237,7 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 * Make catalog user:
     * `sudo adduser catalog`
 * enter postgrespsql
+    * `postgresql`
 * Create user catalog:
     * `CREATE USER catalog WITH PASSWORD 'db-password';`
 * Change role of user catalog to:
@@ -250,7 +251,8 @@ Create new DB "catalog" with own of catalog:
     * `GRANT ALL ON SCHEMA public TO catalog;`
 * Quit postgres
 * exit
-* Setup your database schema python database_setup.py
+* Setup your database schema:
+    * `python database_setup.py`
 
 ### fix OAuth to work with hosted Application ###
 * go to http://www.hcidata.info/host2ip.cgi 
@@ -260,9 +262,9 @@ Create new DB "catalog" with own of catalog:
 * below the ServerAdmin paste:
     * ServerAlias your_host_name
 * make sure the virtual host is enabled:
-    * sudo a2ensite catalog
+    * `sudo a2ensite catalog`
 * restart apache server:
-    * sudo service apache2 restart
+    * `sudo service apache2 restart`
  
  ### Adding hostname to google developer console(Since i used google sign up in my project) ###
 * Go to google developer console
@@ -270,7 +272,7 @@ Create new DB "catalog" with own of catalog:
 * add YOURHOSTNAME/ouath2callback to the Authorized redirect URIs.
 
 #### At the end disable UFW port 22:
-* UFW deny 22
+*` UFW deny 22`
 
 #### Now you are good to go see your project live at the link provided by  http://www.hcidata.info/host2ip.cgi  ###
 
