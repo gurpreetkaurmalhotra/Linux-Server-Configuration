@@ -272,6 +272,10 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 #### At the end disable UFW port 22:
 *` UFW deny 22`
 
-#### Now you are good to go see your project live at the link provided by  http://www.hcidata.info/host2ip.cgi  ###
+#### Now you are good to go see your project live at the link provided by  http://www.hcidata.info/host2ip.cgi
 
-
+#### Resources:
+* [Ubuntu PostgreSQL Documentation.](https://help.ubuntu.com/community/PostgreSQL)
+* [DigitalOcean article on deploying a Flask app on Ubuntu.](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps)
+* [Granting sudo privileges to user.](https://www.digitalocean.com/community/tutorials/how-to-add-delete-and-grant-sudo-privileges-to-users-on-a-debian-vps)
+* [SSH Keys tutorial from digitalocean.](https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server)
