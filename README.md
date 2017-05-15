@@ -11,7 +11,7 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
     2200
     
 ## Things you should do when you create your own server instance ##
-* Log in to Lightsail, in case you do not have an account first make your account.
+* Log in to [Lightsail](https://lightsail.aws.amazon.com), in case you do not have an account first make your account.
 * Create your Lightsail instance, it is a Linux server running on a virtual machine inside an Amazon datacenter.
 * Choose an instance image Ubuntu.
 * Choose your instance plan.
@@ -21,17 +21,17 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 
 #### Note that normal copy-paste will not work in this terminal following are the steps you need to follow when copying the contents of a file ####
 * Inside your terminal press ctrl+alt+shift 
-* clipboard will be opened
+* Clipboard will be opened
 * Normal copy paste operations can be performed there
-* first of all copy your contents there
-* press ctrl+shift+alt again to close the clipboard
-* then right click on that place where you want to copy
-* you are good to go
+* First of all copy your contents there
+* Press ctrl+shift+alt again to close the clipboard
+* Then right click on that place where you want to copy
+* You are good to go
 
 #### Saving and exiting from nano ####
-* nano is a text editor provided by ubuntu
-* to save the file and exit in nano you need to :
-    * press ctr+x
+* Nano is a text editor provided by ubuntu
+* To save the file and exit in nano you need to :
+    * press ctrl+x
     * press y (n if you do not want to save your content)
     * press enter
 
@@ -41,16 +41,14 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 * Note that you can check and verify if the user has been created using finger command.
 
 ### Give permissions to grader ###
-* sudo visudo
-* Add the following line under the "#User privilege specification" tag after the line root=(ALL:ALL) ALL 
-    * grader ALL=(ALL:ALL) ALL  
+* `sudo visudo`
+* Add the following line under the "#User privilege specification" tag after the line `root ALL=(ALL:ALL) ALL` 
+    * `grader ALL=(ALL:ALL) ALL`  
 * Save the file and continue
-* Add the following line to /etc/sudoers.d/garder using:
-    * `sudo nano /etc/sudoers.d/garder`
-        * grader ALL=(ALL:ALL) ALL
-* Add the following line to /etc/sudoers.d/root using:
-    * `sudo nano /etc/sudoers.d/root`
-        * root ALL=(ALL:ALL) 
+* Add the following line to `/etc/sudoers.d/grader` using `sudo nano /etc/sudoers.d/garder`:
+   * `grader ALL=(ALL:ALL) ALL`
+* Add the following line to /etc/sudoers.d/root using `sudo nano /etc/sudoers.d/root`
+   * `root ALL=(ALL:ALL) ALL` 
 
 ### Update all currently installed packages using the following commands ###
 * `sudo apt-get update`
@@ -58,28 +56,28 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 
 ### Change the SSH port 22 to 2200 using the following commands
 * `sudo nano /etc/ssh/sshd_config`
-* now add port 2200 below port 22 
+* Now add port 2200 below port 22 
     * Port 2200
-* In this file change PermitRootLogin prohibit-password to PermitRootLogin no to disallow root login
-* Change PasswordAuthentication from no to yes.
-* save the file and restart
-* restart the service 
+* In this file change `PermitRootLogin prohibit-password` to `PermitRootLogin no` to disallow root login
+* Change `PasswordAuthentication` from no to yes.
+* Save the file and restart
+* Restart the service 
     * `sudo service ssh reload`
 
 ### Create SSH keys and copy to server manually ###
-* Generate SSH key pair with: ssh-keygen (public and private keys will be generated that you will be using in the upcomming steps)
-* save this file in your ssh directory /home/ubuntu/.ssh/name_of_the_app_you_want_to_deploy 
+* Generate SSH key pair with: `ssh-keygen` (public and private keys will be generated that you will be using in the upcomming steps)
+* Save this file in your ssh directory `/home/ubuntu/.ssh/name_of_the_app_you_want_to_deploy` 
 * You can even add a password incase your keygen file is at stake
 * Change the SSH port number configuration in Amazon lightsail to 2200(You can find it in the networking tab)
-* login to your grader account using the following command:
+* Login to your grader account using the following command:
     * `ssh -v grader@*Public-IP-Address* -p 2200`
 * Create .ssh directory using the following command:
     * `sudo mkdir .ssh`
 * Create a file to store keytouch using the following command:
     * `sudo touch .ssh/authorized_keys`
-* Your public key will be stored in a file named .ssh/authorized_keys usethe following command to access it:
+* Your public key will be stored in a file named `.ssh/authorized_keys` use the following command to access it:
     * Your public and private keys will be generated using ssh-keygen
-    * Copy the contents of public key file and paste it in .ssh/authorized_keys using the following command:
+    * Copy the contents of public key file and paste it in `.ssh/authorized_keys` using the following command:
     * `sudo nano .ssh/authorized_keys` 
     * Save the file and continue
 * Set permissions for files: 
@@ -87,8 +85,8 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 * Change PasswordAuthentication from yes back to no. :
     * `sudo nano /etc/ssh/sshd_config`
     * Save the file and continue
-* login with key pair:
-    * `ssh grader@Public-IP-Address* -p 2200 -i ~/.ssh/item-catalog-website'
+* Login with key pair:
+    * `ssh grader@Public-IP-Address* -p 2200 -i ~/.ssh/item-catalog-website`
  
 ### Configure the Uncomplicated Firewall (UFW) such that it will allow only incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123) ###
 * Check UFW status just make it sure that its inactive:
@@ -111,13 +109,13 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 ### Installing  and configuring Apache to serve a Python mod_wsgi application  ###
 * Install apache2:
     * `sudo apt-get install apache2`
-* install mod_wsgi:
+* Install mod_wsgi:
     * `sudo apt-get install libapache2-mod-wsgi`
-* configure Apache to handle requests using the WSGI module:
+* Configure Apache to handle requests using the WSGI module:
     * `sudo nano /etc/apache2/sites-enabled/000-default.conf`
-* add the following line just above </VirtualHost>:
+* Add the following line just above </VirtualHost>:
     * `WSGIScriptAlias / /var/www/html/myapp.wsgi` 
-* save the file and continue
+* Save the file and continue
 * Restart Apache:
     * `sudo apache2ctl restart`
     
@@ -139,7 +137,7 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 * `cd catalog`
 * `sudo mkdir static templates`
 * `sudo nano __init__.py`
-    * Make the following changes in __init__.py
+    * Make the following changes in `__init__.py`
     
     ```javascript
     from flask import Flask
@@ -187,23 +185,23 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 </VirtualHost>
 ```
 
-* save and continue
-* Enable sudo a2ensite catalog
+* Save and continue
+* Enable `sudo a2ensite catalog`
 
 ### Clone your Github Repository using the following command ###
-* sudo git clone https://github.com/username/repositorname example i used:
+* Sudo git clone https://github.com/username/repositorname example i used:
     * `sudo git clone https://gurpreetkaurmalhotra/item-catalog-website`
 * Move files from clone directory to catalog using the following command:
     * `sudo mv /var/www/catalog/item-catalog-website/* /var/www/catalog/catalog/`
-* remove clone directory:
+* Remove clone directory:
     * `sudo rm -r item-catalog-website`
 #### make .git inaccessible ####
 * Change your directory to /var/www/catalog 
-* create a file named .htaccess:
+* Create a file named .htaccess:
     * `sudo nano .htaccess`
-    * paste the following line in that file:
+    * Paste the following line in that file:
         * `RedirectMatch 404 /\.git`
-    * save file and continue
+    * Save file and continue
     
 ### install the dependencies ###
 * Install all relevant packages , following are the packages installed by me:
@@ -225,24 +223,24 @@ I have used Amazon Lightsail for this project. If you prefer, you can use any ot
 ### Install PostgreSQL ###
 * Install postgresql
     * `sudo apt-get install postgresql`
-* install additional models:
+* Install additional models:
     * `sudo apt-get install postgresql-contrib`
 * Since I am using my item-catalog project I first configured my database_setup.py:
     * `sudo nano database_setup.py`
-    * made the following changes there:
+    * Made the following changes there:
      `engine = create_engine('postgresql://catalog:db-password@localhost/catalog')`
 * I repeated the same for project.py
 * Then I copied my project.py file into the `__init__.py` file:
     * `mv project.py __init__.py`
 * Make catalog user:
     * `sudo adduser catalog`
-* enter postgrespsql
+* Enter postgrespsql
     * `postgresql`
 * Create user catalog:
     * `CREATE USER catalog WITH PASSWORD 'db-password';`
 * Change role of user catalog to:
     * `ALTER USER catalog CREATEDB;`
-Create new DB "catalog" with own of catalog:
+* Create new DB "catalog" with own of catalog:
     * `CREATE DATABASE catalog WITH OWNER catalog;`
 * Connect to database\c catalog
 * Revoke all rights:
@@ -250,26 +248,26 @@ Create new DB "catalog" with own of catalog:
 * Give accessto only catalog role
     * `GRANT ALL ON SCHEMA public TO catalog;`
 * Quit postgres
-* exit
+* Exit
 * Setup your database schema:
     * `python database_setup.py`
 
 ### fix OAuth to work with hosted Application ###
-* go to http://www.hcidata.info/host2ip.cgi 
-* get your host name by entering your public IP address which was given initially.
-* open apache config file:
+* Go to http://www.hcidata.info/host2ip.cgi 
+* Get your host name by entering your public IP address which was given initially.
+* Open apache config file:
     * `sudo nano /etc/apache2/sites-available/catalog.conf`
-* below the ServerAdmin paste:
+* Below the ServerAdmin paste:
     * ServerAlias your_host_name
-* make sure the virtual host is enabled:
+* Make sure the virtual host is enabled:
     * `sudo a2ensite catalog`
-* restart apache server:
+* Restart apache server:
     * `sudo service apache2 restart`
  
  ### Adding hostname to google developer console(Since i used google sign up in my project) ###
 * Go to google developer console
-* add your host name and IP address to Authorized Javascript origins.
-* add YOURHOSTNAME/ouath2callback to the Authorized redirect URIs.
+* Add your host name and IP address to Authorized Javascript origins.
+* Add YOURHOSTNAME/ouath2callback to the Authorized redirect URIs.
 
 #### At the end disable UFW port 22:
 *` UFW deny 22`
